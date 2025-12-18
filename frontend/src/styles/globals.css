@@ -1,3 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@500;600;700;800&family=Orbitron:wght@500;600;700;800;900&display=swap');
 
 @custom-variant dark (&:is(.dark *));
@@ -133,16 +137,21 @@
 
 @layer base {
   * {
-    @apply border-border outline-ring/50;
+    border-color: var(--border);
   }
 
   body {
-    @apply bg-background text-foreground;
+    background-color: var(--background);
+    color: var(--foreground);
     font-family: var(--font-inter);
   }
   
   h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-poppins);
+  }
+
+  input, textarea {
+    color: var(--foreground);
   }
 }
 
@@ -197,6 +206,7 @@
       font-size: var(--text-base);
       font-weight: var(--font-weight-normal);
       line-height: 1.5;
+      color: var(--foreground);
     }
   }
 }
