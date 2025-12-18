@@ -1,6 +1,6 @@
 # HiveU StudyMatch - Full Stack Application
 
-A complete full-stack study group matching application with a beautiful Figma-designed frontend integrated with a FastAPI backend.
+A complete full-stack  KSU study group matching application with a frontend integrated with a FastAPI backend.
 
 ## Features
 
