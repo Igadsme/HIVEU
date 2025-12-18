@@ -5,7 +5,7 @@ import { Avatar, AvatarFallback } from "./ui/avatar";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./ui/select";
 import { motion } from "motion/react";
-import { OwlIcon } from "./CoreUI";
+import { OwlIcon } from "./OwlIcon";
 
 export function LeaderboardPage() {
   const topStudents = [

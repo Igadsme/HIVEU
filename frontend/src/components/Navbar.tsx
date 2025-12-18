@@ -1,9 +1,10 @@
-import { Bell, Menu, Moon, Sun, X } from "lucide-react";
+import { Bell, Menu, Moon, Sun, X, Award } from "lucide-react";
 import { Button } from "./ui/button";
-import { Sheet, SheetContent, SheetTrigger } from "./ui/sheet";
+import { Sheet, SheetContent, SheetTitle, SheetDescription, SheetTrigger } from "./ui/sheet";
 import { Badge } from "./ui/badge";
 import { useState } from "react";
-import { OwlLogoIcon } from "./CoreUI";
+import { OwlLogoIcon } from "./OwlIcon";
+import { VisuallyHidden } from "./ui/visually-hidden";
 
 interface NavbarProps {
   onNavigate: (page: string) => void;
@@ -36,11 +37,9 @@ export function Navbar({
   ];
 
   const handleNavClick = (page: string) => {
-    if (page === 'dashboard') {
-      onNavigate('/dashboard');
-    } else {
-      onNavigate(`/${page}`);
-    }
+    // Handle React Router navigation - onNavigate expects paths like '/dashboard'
+    const path = page.startsWith('/') ? page : `/${page}`;
+    onNavigate(path);
     setMobileOpen(false);
   };
 
@@ -76,6 +75,20 @@ export function Navbar({
 
           {/* Right Side Actions */}
           <div className="flex items-center gap-2">
+            {/* HivePoints Badge - NEW */}
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => handleNavClick('hivepoints')}
+              className="relative hidden md:flex items-center gap-2 rounded-xl hover:bg-primary/10"
+            >
+              <Award className="h-4 w-4 text-primary" />
+              <span className="text-sm font-semibold">2,340</span>
+              <Badge className="gradient-gold text-primary-foreground text-xs px-1.5 py-0">
+                Lvl 8
+              </Badge>
+            </Button>
+            
             {/* Notifications */}
             <Button
               variant="ghost"
@@ -112,6 +125,12 @@ export function Navbar({
                 </Button>
               </SheetTrigger>
               <SheetContent side="right" className="w-64">
+                <VisuallyHidden>
+                  <SheetTitle>Navigation Menu</SheetTitle>
+                  <SheetDescription>
+                    Mobile navigation menu for HiveU StudyMatch
+                  </SheetDescription>
+                </VisuallyHidden>
                 <div className="flex flex-col gap-4 mt-8">
                   {navItems.map((item) => (
                     <Button

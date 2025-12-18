@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import { Routes, Route, Navigate, useNavigate, useLocation, Outlet } from 'react-router-dom'
 import { motion, AnimatePresence } from 'motion/react'
-import { Navbar, Footer, AIAssistant, NotificationsPanel } from './components/CoreUI'
+import { Navbar } from './components/Navbar'
+import { Footer } from './components/Footer'
+import { AIAssistant } from './components/AIAssistant'
+import { NotificationsPanel } from './components/NotificationsPanel'
 import { LoginPage } from './components/LoginPage'
 import { Dashboard } from './components/Dashboard'
 import { StudyGroupFinder } from './components/StudyGroupFinder'
@@ -11,6 +14,10 @@ import { CalendarPage } from './components/CalendarPage'
 import { MarketplacePage } from './components/MarketplacePage'
 import { LeaderboardPage } from './components/LeaderboardPage'
 import { AnalyticsPage } from './components/AnalyticsPage'
+import { HiveMindPage } from './components/HiveMindPage'
+import { TutorMarketplacePage } from './components/TutorMarketplacePage'
+import { StudyVaultPage } from './components/StudyVaultPage'
+import { HivePointsPage } from './components/HivePointsPage'
 import { Toaster } from './components/ui/sonner'
 import { useAuth } from './store'
 import ProtectedRoute from './components/ProtectedRoute'
@@ -79,6 +86,10 @@ export default function App() {
     if (path === '/marketplace') return 'marketplace'
     if (path === '/leaderboard') return 'leaderboard'
     if (path === '/analytics') return 'analytics'
+    if (path === '/hivemind') return 'hivemind'
+    if (path === '/tutors') return 'tutors'
+    if (path === '/vault') return 'vault'
+    if (path === '/hivepoints') return 'hivepoints'
     return 'dashboard'
   }
 
@@ -243,6 +254,66 @@ export default function App() {
                   exit="exit"
                 >
                   <AnalyticsPage />
+                </motion.div>
+              </AnimatePresence>
+            </main>
+          } />
+          <Route path="/hivemind" element={
+            <main className="flex-1">
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key="hivemind"
+                  variants={pageVariants}
+                  initial="initial"
+                  animate="animate"
+                  exit="exit"
+                >
+                  <HiveMindPage />
+                </motion.div>
+              </AnimatePresence>
+            </main>
+          } />
+          <Route path="/tutors" element={
+            <main className="flex-1">
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key="tutors"
+                  variants={pageVariants}
+                  initial="initial"
+                  animate="animate"
+                  exit="exit"
+                >
+                  <TutorMarketplacePage />
+                </motion.div>
+              </AnimatePresence>
+            </main>
+          } />
+          <Route path="/vault" element={
+            <main className="flex-1">
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key="vault"
+                  variants={pageVariants}
+                  initial="initial"
+                  animate="animate"
+                  exit="exit"
+                >
+                  <StudyVaultPage />
+                </motion.div>
+              </AnimatePresence>
+            </main>
+          } />
+          <Route path="/hivepoints" element={
+            <main className="flex-1">
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key="hivepoints"
+                  variants={pageVariants}
+                  initial="initial"
+                  animate="animate"
+                  exit="exit"
+                >
+                  <HivePointsPage />
                 </motion.div>
               </AnimatePresence>
             </main>

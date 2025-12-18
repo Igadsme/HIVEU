@@ -32,7 +32,7 @@ export function Footer() {
         </div>
 
         {/* Copyright */}
-        <div className="mt-6 pt-6 border-t border-border/30 text-center text-xs text-muted-foreground">
+        <div className="mt-6 pt-6 border-t text-center text-xs text-muted-foreground">
           <p className="flex items-center justify-center gap-1">
             © {currentYear} HiveU StudyMatch. Made with <Heart className="h-3 w-3 text-destructive fill-destructive" /> for KSU students.
           </p>

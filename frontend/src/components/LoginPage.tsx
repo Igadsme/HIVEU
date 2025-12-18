@@ -5,80 +5,14 @@ import { Label } from "./ui/label";
 import { Card } from "./ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs";
 import { Badge } from "./ui/badge";
-import { OwlLogoIcon, OwlIcon } from "./CoreUI";
+import { OwlLogoIcon, OwlIcon } from "./OwlIcon";
 import { motion } from "motion/react";
-import { useState } from "react";
-import { signup, login } from "../api";
-import { useAuth } from "../store";
-import { toast } from "sonner";
 
 interface LoginPageProps {
   onLogin: () => void;
 }
 
 export function LoginPage({ onLogin }: LoginPageProps) {
-  const [signinEmail, setSigninEmail] = useState("");
-  const [signinPassword, setSigninPassword] = useState("");
-  const [signupName, setSignupName] = useState("");
-  const [signupEmail, setSignupEmail] = useState("");
-  const [signupPassword, setSignupPassword] = useState("");
-  const [signupConfirmPassword, setSignupConfirmPassword] = useState("");
-  const [loading, setLoading] = useState(false);
-  const { setAuth } = useAuth();
-
-  const handleSignIn = async () => {
-    if (!signinEmail || !signinPassword) {
-      toast.error("Please fill in all fields");
-      return;
-    }
-    setLoading(true);
-    try {
-      const result = await login(signinEmail, signinPassword);
-      setAuth(result.token, result.user.id);
-      toast.success("Welcome back!");
-      onLogin();
-    } catch (error: any) {
-      toast.error(error.response?.data?.detail || "Login failed. Please try again.");
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleSignUp = async () => {
-    if (!signupName || !signupEmail || !signupPassword || !signupConfirmPassword) {
-      toast.error("Please fill in all fields");
-      return;
-    }
-    if (signupPassword !== signupConfirmPassword) {
-      toast.error("Passwords do not match");
-      return;
-    }
-    setLoading(true);
-    // #region agent log
-    fetch('http://127.0.0.1:7242/ingest/5a113d7d-86fc-4902-bcc8-994e001f59ce',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'LoginPage.tsx:47',message:'handleSignUp called',data:{email:signupEmail,name:signupName},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{}); // #endregion
-    try {
-      const user = await signup({
-        email: signupEmail,
-        name: signupName,
-        courses: [],
-        availability: [],
-        study_styles: [],
-        mode: "hybrid"
-      });
-      // #region agent log
-      fetch('http://127.0.0.1:7242/ingest/5a113d7d-86fc-4902-bcc8-994e001f59ce',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'LoginPage.tsx:66',message:'signup success in component',data:{userId:user.id},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{}); // #endregion
-      setAuth("mock-token", user.id);
-      toast.success("Account created successfully!");
-      onLogin();
-    } catch (error: any) {
-      // #region agent log
-      fetch('http://127.0.0.1:7242/ingest/5a113d7d-86fc-4902-bcc8-994e001f59ce',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'LoginPage.tsx:70',message:'signup error in component',data:{error:error.message,response:error.response?.data,status:error.response?.status},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'E'})}).catch(()=>{}); // #endregion
-      toast.error(error.response?.data?.detail || error.message || "Signup failed. Please try again.");
-    } finally {
-      setLoading(false);
-    }
-  };
-
   return (
     <div className="min-h-screen flex owl-bg">
       {/* Left Side - Illustration */}
@@ -189,8 +123,6 @@ export function LoginPage({ onLogin }: LoginPageProps) {
                     type="email"
                     placeholder="your.name@students.kennesaw.edu"
                     className="rounded-xl"
-                    value={signinEmail}
-                    onChange={(e) => setSigninEmail(e.target.value)}
                   />
                 </div>
                 <div className="space-y-2">
@@ -200,19 +132,16 @@ export function LoginPage({ onLogin }: LoginPageProps) {
                     type="password"
                     placeholder="••••••••"
                     className="rounded-xl"
-                    value={signinPassword}
-                    onChange={(e) => setSigninPassword(e.target.value)}
                   />
                 </div>
                 <button className="text-sm text-primary hover:underline">
                   Forgot password?
                 </button>
                 <Button 
-                  onClick={handleSignIn}
-                  disabled={loading}
+                  onClick={onLogin}
                   className="w-full rounded-xl gradient-gold gradient-gold-hover text-primary-foreground"
                 >
-                  {loading ? "Signing in..." : "Sign In"}
+                  Sign In
                   <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>
               </Card>
@@ -253,8 +182,6 @@ export function LoginPage({ onLogin }: LoginPageProps) {
                     type="text"
                     placeholder="Imani Johnson"
                     className="rounded-xl"
-                    value={signupName}
-                    onChange={(e) => setSignupName(e.target.value)}
                   />
                 </div>
                 <div className="space-y-2">
@@ -264,8 +191,6 @@ export function LoginPage({ onLogin }: LoginPageProps) {
                     type="email"
                     placeholder="your.name@students.kennesaw.edu"
                     className="rounded-xl"
-                    value={signupEmail}
-                    onChange={(e) => setSignupEmail(e.target.value)}
                   />
                 </div>
                 <div className="space-y-2">
@@ -275,8 +200,6 @@ export function LoginPage({ onLogin }: LoginPageProps) {
                     type="password"
                     placeholder="••••••••"
                     className="rounded-xl"
-                    value={signupPassword}
-                    onChange={(e) => setSignupPassword(e.target.value)}
                   />
                 </div>
                 <div className="space-y-2">
@@ -286,16 +209,13 @@ export function LoginPage({ onLogin }: LoginPageProps) {
                     type="password"
                     placeholder="••••••••"
                     className="rounded-xl"
-                    value={signupConfirmPassword}
-                    onChange={(e) => setSignupConfirmPassword(e.target.value)}
                   />
                 </div>
                 <Button 
-                  onClick={handleSignUp}
-                  disabled={loading}
+                  onClick={onLogin}
                   className="w-full rounded-xl gradient-gold gradient-gold-hover text-primary-foreground"
                 >
-                  {loading ? "Creating account..." : "Create Account"}
+                  Create Account
                   <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>
               </Card>
