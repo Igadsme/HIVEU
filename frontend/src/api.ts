@@ -44,16 +44,30 @@ export async function login(email: string, password: string) {
 }
 
 export async function signup(payload: any) {
-  const res = await api.post('/users/', payload)
-  const user = res.data
-  // Store user info in localStorage for login
-  const storedUsers = localStorage.getItem('hiveu_users')
-  const users = storedUsers ? JSON.parse(storedUsers) : []
-  if (!users.find((u: any) => u.id === user.id)) {
-    users.push({ id: user.id, email: user.email, name: user.name })
-    localStorage.setItem('hiveu_users', JSON.stringify(users))
+  // #region agent log
+  fetch('http://127.0.0.1:7242/ingest/5a113d7d-86fc-4902-bcc8-994e001f59ce',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'api.ts:46',message:'signup called',data:{payload,apiBase:API_BASE},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'A'})}).catch(()=>{}); // #endregion
+  try {
+    const res = await api.post('/users/', payload)
+    // #region agent log
+    fetch('http://127.0.0.1:7242/ingest/5a113d7d-86fc-4902-bcc8-994e001f59ce',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'api.ts:49',message:'signup success',data:{user:res.data,status:res.status},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'A'})}).catch(()=>{}); // #endregion
+    const user = res.data
+    // Store user info in localStorage for login
+    const storedUsers = localStorage.getItem('hiveu_users')
+    const users = storedUsers ? JSON.parse(storedUsers) : []
+    if (!users.find((u: any) => u.id === user.id)) {
+      users.push({ id: user.id, email: user.email, name: user.name })
+      localStorage.setItem('hiveu_users', JSON.stringify(users))
+    }
+    return user
+  } catch (error: any) {
+    // #region agent log
+    fetch('http://127.0.0.1:7242/ingest/5a113d7d-86fc-4902-bcc8-994e001f59ce',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'api.ts:60',message:'signup error',data:{error:error.message,response:error.response?.data,status:error.response?.status,code:error.code,url:error.config?.url},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'B,C'})}).catch(()=>{}); // #endregion
+    // Improve error message for network errors
+    if (error.code === 'ECONNREFUSED' || error.code === 'ERR_NETWORK' || !error.response) {
+      throw new Error('Cannot connect to server. Please make sure the backend is running on port 8000.')
+    }
+    throw error
   }
-  return user
 }
 
 // Users

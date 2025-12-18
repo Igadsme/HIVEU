@@ -5,7 +5,7 @@ import { Label } from "./ui/label";
 import { Card } from "./ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs";
 import { Badge } from "./ui/badge";
-import { OwlLogoIcon, OwlIcon } from "./OwlIcon";
+import { OwlLogoIcon, OwlIcon } from "./CoreUI";
 import { motion } from "motion/react";
 import { useState } from "react";
 import { signup, login } from "../api";
@@ -54,6 +54,8 @@ export function LoginPage({ onLogin }: LoginPageProps) {
       return;
     }
     setLoading(true);
+    // #region agent log
+    fetch('http://127.0.0.1:7242/ingest/5a113d7d-86fc-4902-bcc8-994e001f59ce',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'LoginPage.tsx:47',message:'handleSignUp called',data:{email:signupEmail,name:signupName},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{}); // #endregion
     try {
       const user = await signup({
         email: signupEmail,
@@ -63,11 +65,15 @@ export function LoginPage({ onLogin }: LoginPageProps) {
         study_styles: [],
         mode: "hybrid"
       });
+      // #region agent log
+      fetch('http://127.0.0.1:7242/ingest/5a113d7d-86fc-4902-bcc8-994e001f59ce',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'LoginPage.tsx:66',message:'signup success in component',data:{userId:user.id},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{}); // #endregion
       setAuth("mock-token", user.id);
       toast.success("Account created successfully!");
       onLogin();
     } catch (error: any) {
-      toast.error(error.response?.data?.detail || "Signup failed. Please try again.");
+      // #region agent log
+      fetch('http://127.0.0.1:7242/ingest/5a113d7d-86fc-4902-bcc8-994e001f59ce',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'LoginPage.tsx:70',message:'signup error in component',data:{error:error.message,response:error.response?.data,status:error.response?.status},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'E'})}).catch(()=>{}); // #endregion
+      toast.error(error.response?.data?.detail || error.message || "Signup failed. Please try again.");
     } finally {
       setLoading(false);
     }

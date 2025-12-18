@@ -3,7 +3,7 @@ import { Button } from "./ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "./ui/sheet";
 import { Badge } from "./ui/badge";
 import { useState } from "react";
-import { OwlLogoIcon } from "./OwlIcon";
+import { OwlLogoIcon } from "./CoreUI";
 
 interface NavbarProps {
   onNavigate: (page: string) => void;
@@ -45,7 +45,7 @@ export function Navbar({
   };
 
   return (
-    <nav className="sticky top-0 z-50 w-full border-b bg-card/95 backdrop-blur supports-[backdrop-filter]:bg-card/60">
+    <nav className="sticky top-0 z-50 w-full border-b border-border/30" style={{ backgroundColor: '#1A1A1A' }}>
       <div className="container mx-auto px-4">
         <div className="flex h-16 items-center justify-between">
           {/* Logo */}

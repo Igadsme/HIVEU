@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Routes, Route, Navigate, useNavigate, useLocation, Outlet } from 'react-router-dom'
 import { motion, AnimatePresence } from 'motion/react'
-import { Navbar } from './components/Navbar'
-import { Footer } from './components/Footer'
-import { AIAssistant } from './components/AIAssistant'
+import { Navbar, Footer, AIAssistant, NotificationsPanel } from './components/CoreUI'
 import { LoginPage } from './components/LoginPage'
 import { Dashboard } from './components/Dashboard'
 import { StudyGroupFinder } from './components/StudyGroupFinder'
@@ -13,7 +11,6 @@ import { CalendarPage } from './components/CalendarPage'
 import { MarketplacePage } from './components/MarketplacePage'
 import { LeaderboardPage } from './components/LeaderboardPage'
 import { AnalyticsPage } from './components/AnalyticsPage'
-import { NotificationsPanel } from './components/NotificationsPanel'
 import { Toaster } from './components/ui/sonner'
 import { useAuth } from './store'
 import ProtectedRoute from './components/ProtectedRoute'
@@ -25,13 +22,11 @@ export default function App() {
   const [darkMode, setDarkMode] = useState(false)
   const [notificationsOpen, setNotificationsOpen] = useState(false)
 
-  // Initialize dark mode from system preference
+  // Initialize dark mode - default to dark
   useEffect(() => {
     const isDark = window.matchMedia('(prefers-color-scheme: dark)').matches
-    setDarkMode(isDark)
-    if (isDark) {
-      document.documentElement.classList.add('dark')
-    }
+    setDarkMode(true) // Always start in dark mode
+    document.documentElement.classList.add('dark')
   }, [])
 
   const toggleDarkMode = () => {
@@ -109,7 +104,7 @@ export default function App() {
   )
 
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen flex flex-col" style={{ backgroundColor: '#1A1A1A' }}>
       <Routes>
         <Route path="/login" element={
           userId ? <Navigate to="/dashboard" replace /> : <LoginPage onLogin={() => navigate('/dashboard')} />
