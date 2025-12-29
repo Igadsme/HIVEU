@@ -169,6 +169,3 @@ HiveU-StudyMatch-fullstack 3/
 - File uploads are stored locally in `backend/uploads/`
 - The matching algorithm considers course overlap, availability, and study styles
 
-## License
-
-This project is for educational purposes.
