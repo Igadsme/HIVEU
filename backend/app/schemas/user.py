@@ -1,6 +1,7 @@
 from typing import List, Optional
 from pydantic import BaseModel, EmailStr
 
+
 class UserCreate(BaseModel):
     email: EmailStr
     name: str
