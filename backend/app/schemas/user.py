@@ -11,7 +11,6 @@ class UserCreate(BaseModel):
     mode: Optional[str] = "hybrid"
 
 
-
 class UserRead(BaseModel):
     id: int
     email: EmailStr
