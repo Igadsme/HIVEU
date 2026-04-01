@@ -10,6 +10,9 @@ class UserCreate(BaseModel):
     study_styles: List[str] = []
     mode: Optional[str] = "hybrid"
 
+
+
+
 class UserRead(BaseModel):
     id: int
     email: EmailStr
